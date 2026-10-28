@@ -1,49 +1,92 @@
+
 # Digital Twin Model for Personalized Cardiac Health Monitoring
 
-A runnable academic prototype for the Mid-Term Evaluation and Phase III implementation submissions.
+An academic machine learning prototype that demonstrates cardiac-related data classification and visualization through a Streamlit dashboard.
+
+## Project Overview
+
+This project uses a Logistic Regression classifier trained on the UCI Heart Disease dataset and provides an interactive dashboard for exploring model predictions, evaluation metrics, and illustrative trends.
+
+**Project status:** Working software prototype; real-time monitoring and clinical validation are not implemented.
 
 ## Features
-- Reproducible ML training with the UCI Heart Disease dataset (ID 45).
-- Data preprocessing, stratified train/test split, logistic-regression baseline and held-out metrics.
-- Streamlit dashboard with patient input and model output.
-- Simulated 14-day trend chart to demonstrate the visualization module.
-- Saved model and metrics under `artifacts/`.
 
-## Important limitation
-This is an educational prototype, not a medical device or diagnostic system. The UCI Cleveland dataset is small, historical, and not longitudinal wearable data. The trend chart is simulated, not measured patient data. Never use the model for medical decisions.
+- Data preprocessing using median imputation and feature standardization
+- Logistic Regression classification pipeline
+- Interactive Streamlit dashboard with 13 input features
+- Prediction output and estimated positive-class probability
+- Model evaluation metrics and confusion matrix
+- Simulated 14-day trend visualization
 
-## Windows setup
-1. Install Python 3.10–3.12.
-2. Extract the ZIP and open this folder in VS Code.
-3. Open Terminal in this folder and run:
+## Technology Stack
 
-```powershell
-py -m venv .venv
-.\.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip
-pip install -r requirements.txt
-python train_model.py
-streamlit run app.py
-```
+- Python
+- Pandas and NumPy
+- scikit-learn
+- Streamlit
+- Plotly
+- Joblib
 
-If PowerShell blocks activation, use Command Prompt and run `.venv\Scripts\activate.bat` instead. The UCI data fetch requires internet access on the first training run.
+## Dataset and Methodology
 
-## Generated artifacts
-- `artifacts/heart_disease_model.joblib`
-- `artifacts/metrics.json`
+Dataset: UCI Machine Learning Repository — Heart Disease (ID 45).
 
-Run `train_model.py` yourself and use its actual metrics in the report. Do not invent results.
+- Records used: 303
+- Training records: 227
+- Test records: 76
+- Split: Stratified, random_state=42
+- Model: Logistic Regression
+- Preprocessing: Median imputation and StandardScaler
 
-## Dataset and citation
-UCI Machine Learning Repository, Heart Disease (ID 45), CC BY 4.0: https://uci-ics-mlr-prod.aws.uci.edu/dataset/45/heart%2Bdisease
+The positive target class is defined as original `num > 0`; otherwise, it is negative.
 
-Janosi, A., Steinbrunn, M., Pfisterer, J., & Detrano, R. (1989). *Heart Disease*. UCI Machine Learning Repository. https://doi.org/10.24432/C52P4X.
+## Reported Experimental Results
 
-## Troubleshooting
-- `ModuleNotFoundError`: activate `.venv` and run `pip install -r requirements.txt`.
-- Dataset download error: check internet and rerun `python train_model.py`; alternatively place a correctly sourced CSV in `data/heart.csv` with the 13 feature columns and target column `num` (or `target`).
-- Streamlit command not found: run `python -m streamlit run app.py`.
-- Port busy: `python -m streamlit run app.py --server.port 8502`.
+| Metric | Result |
+|---|---:|
+| Accuracy | 86.84% |
+| Precision | 83.78% |
+| Recall | 88.57% |
+| F1 score | 86.11% |
+| ROC-AUC | 92.82% |
 
-## Status at handoff
-Code is prepared but has not yet been executed on your computer. Only describe training, testing, and results as completed after you run the commands and capture the outputs.
+These results come from one held-out test split and are not evidence of clinical performance.
+
+## Setup and Usage
+
+1. Install Python and create a virtual environment.
+2. Install dependencies:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. Train the model, if the dataset retrieval and training script are configured:
+
+   ```bash
+   python train_model.py
+   ```
+
+4. Start the dashboard:
+
+   ```bash
+   streamlit run app.py
+   ```
+
+Run the training step before starting the dashboard if the required saved model and metrics artifacts are not already present.
+
+## Current Limitations
+
+- The dataset is small and historical.
+- Trend data is simulated, not live patient data.
+- No physical sensors, wearables, or real-time data pipeline are integrated.
+- Automated edge-case testing and independent-dataset validation remain pending.
+- The model has not undergone clinical validation.
+
+## Disclaimer
+
+This project is for educational and academic demonstration only. It is not a medical device and must not be used for diagnosis, treatment, or medical decision-making.
+
+## Reference
+
+UCI Machine Learning Repository, Heart Disease dataset (ID 45): https://doi.org/10.24432/C52P4X
